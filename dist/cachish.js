@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-require('babel-runtime/core-js');
-
 var _events = require('events');
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -49,7 +47,8 @@ var Cachish = (function (_EventEmitter) {
       var isStale = exists && this.stale(id);
       if (isStale) {
         this.emit('stale', {
-          id: id });
+          id: id
+        });
       }
       return exists && !isStale;
     }
@@ -68,8 +67,8 @@ var Cachish = (function (_EventEmitter) {
     value: function set(id, value) {
       var _this2 = this;
 
-      var eventType = 'add',
-          previousValue = undefined;
+      var eventType = 'add';
+      var previousValue = undefined;
       if (id in this.data) {
         previousValue = this.data[id];
         eventType = 'change';
@@ -77,7 +76,8 @@ var Cachish = (function (_EventEmitter) {
       var payload = {
         id: id,
         previousValue: previousValue,
-        value: value };
+        value: value
+      };
       return new Promise(function (resolve, reject) {
         later(function () {
           _this2.data[id] = {
@@ -113,7 +113,8 @@ var Cachish = (function (_EventEmitter) {
           return resolve(_this3.data[id]);
         } else {
           _this3.emit('missing', {
-            id: id });
+            id: id
+          });
           return reject(new Error('Cache key ' + id + ' not found'));
         }
       });
@@ -128,7 +129,8 @@ var Cachish = (function (_EventEmitter) {
           if (coolName(id)) {
             delete _this4.data[id];
             _this4.emit('delete', {
-              id: id });
+              id: id
+            });
           }
           resolve();
         });

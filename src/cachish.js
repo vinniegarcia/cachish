@@ -1,4 +1,3 @@
-import 'babel-runtime/core-js'
 import { EventEmitter } from 'events'
 
 const defaultTimeout = 600000

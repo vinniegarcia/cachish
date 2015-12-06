@@ -28,6 +28,7 @@
   "homepage": "https://github.com/vinniegarcia/cachish#readme",
   "devDependencies": {
     "babel": "^6.3.13",
+    "babel-cli": "^6.3.13",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.3.13",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
@@ -37,8 +38,5 @@
     "tape": "^4.2.2"
   },
   "dependencies": {
-    "babel-polyfill": "^6.3.14",
-    "babel-runtime": "^6.3.13",
-    "es6-promise": "^3.0.2"
   }
 }
