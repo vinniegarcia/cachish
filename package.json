@@ -4,9 +4,11 @@
   "description": "A simple name/value expiring evented cache",
   "main": "index.js",
   "scripts": {
-    "test": "tape src/test/index.js | tap-spec",
+    "test": "npm run lint && tape src/test/index.js | tap-spec",
     "lint": "standard src/**",
-    "format": "standard-format -w src/**.js"
+    "format": "standard-format -w src/**.js",
+    "compile": "babel -d dist src",
+    "prepublish": "npm run compile"
   },
   "repository": {
     "type": "git",

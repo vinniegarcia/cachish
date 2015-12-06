@@ -8,34 +8,35 @@ const later = (f) => setTimeout(f, 0)
 const coolName = (name) => typeof name === 'string'
 
 class Cachish extends EventEmitter {
-  constructor(timeout = defaultTimeout) {
+  constructor (timeout = defaultTimeout) {
     super()
     this.data = {}
     this.emit('init', {})
     this.timeout = timeout
   }
 
-  check(id) {
+  check (id) {
     const exists = id in this.data
     const isStale = exists && this.stale(id)
     if (isStale) {
       this.emit('stale', {
-      id})
+        id
+      })
     }
     return exists && !isStale
   }
 
-  fresh(id) {
+  fresh (id) {
     return id in this.data && this.data[id].expires > Date.now()
   }
 
-  stale(id) {
+  stale (id) {
     return !this.fresh(id)
   }
 
-  set(id, value) {
-    let eventType = 'add',
-      previousValue
+  set (id, value) {
+    let eventType = 'add'
+    let previousValue
     if (id in this.data) {
       previousValue = this.data[id]
       eventType = 'change'
@@ -43,7 +44,8 @@ class Cachish extends EventEmitter {
     let payload = {
       id,
       previousValue,
-    value}
+      value
+    }
     return new Promise((resolve, reject) => {
       later(() => {
         this.data[id] = {
@@ -54,18 +56,17 @@ class Cachish extends EventEmitter {
         resolve()
       })
     })
-
   }
 
-  add(id, value) {
+  add (id, value) {
     return this.set(id, value)
   }
 
-  update(id, value) {
+  update (id, value) {
     return this.set(id, value)
   }
 
-  get(id) {
+  get (id) {
     return new Promise((resolve, reject) => {
       if (coolName(id) && this.check(id)) {
         this.emit('found', {
@@ -75,30 +76,32 @@ class Cachish extends EventEmitter {
         return resolve(this.data[id])
       } else {
         this.emit('missing', {
-        id})
+          id
+        })
         return reject(new Error(`Cache key ${id} not found`))
       }
     })
   }
 
-  delete(id) {
+  delete (id) {
     return new Promise((resolve, reject) => {
       later(() => {
         if (coolName(id)) {
           delete this.data[id]
           this.emit('delete', {
-          id})
+            id
+          })
         }
         resolve()
       })
     })
   }
 
-  size() {
+  size () {
     return Object.keys(this.data).length
   }
 
-  clear() {
+  clear () {
     return new Promise((resolve, reject) => {
       later(() => {
         this.data = {}
